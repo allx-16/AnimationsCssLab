@@ -1,0 +1,73 @@
+LABORATORIO: ANIMACIONES CSS CON TEMPLATES - ENTREGABLE
+
+Pregunta 1. ¿Qué sucede visualmente al mantener el clic sobre una card?
+¿Qué propiedad o selector lo provoca?
+
+Mientras se mantiene presionado el clic, la card "entra" girando en diagonal:
+aparece desde el fondo (como si viniera de lejos), rotada en 3D sobre un eje
+diagonal, y se endereza hasta quedar en su lugar. Al soltar el clic regresa
+a su estado normal. Lo provoca el selector :active en ".card:active", que
+aplica la propiedad animation con los @keyframes slit-in-diagonal-2
+(transform con translateZ y rotate3d, y opacity de 0 a 1).
+
+Pregunta 2. ¿Qué cambió al usar ".card { animation: ... }" y recargar?
+
+Al aplicar la animación directamente a .card (sin pseudoclase), ya no hace
+falta hacer clic: todas las cards se animan automáticamente una sola vez al
+cargar la página, entrando en diagonal al mismo tiempo. Como tiene fill-mode
+"both", al terminar se quedan en su posición final.
+
+Pregunta 3. ¿Qué 3 selectores elegiste y cómo se comportó la animación?
+
+1) .card:active — se activa solo mientras se mantiene presionado el botón
+   del mouse sobre la card. La animación se reinicia cada vez que se hace
+   clic y se interrumpe al soltarlo si no ha terminado.
+2) .card:focus-within — se activa cuando algún elemento dentro de la card
+   recibe el foco, por ejemplo al presionar Tab hasta el botón "Go
+   somewhere" o al hacer clic en él. La card se anima completa mientras el
+   botón tiene el foco.
+3) .col-sm-1:nth-child(odd) .card — selecciona solo las cards que están en
+   columnas impares (1.ª, 3.ª y 5.ª). Al recargar, solo esas tres cards se
+   animaron y las otras se quedaron fijas.
+
+En la versión final dejé .card:hover (paso 2.2): la card se anima cada vez
+que el cursor pasa sobre ella.
+
+Pregunta 4. ¿Para qué sirve @keyframes en CSS?
+
+@keyframes define los "cuadros clave" de una animación: cómo debe verse un
+elemento en distintos momentos (0%, 50%, 100%, o from/to). Se le da un nombre
+y después ese nombre se usa en la propiedad animation de cualquier selector.
+El navegador calcula automáticamente los estados intermedios entre un cuadro
+clave y el siguiente, así que solo se describen los puntos importantes y el
+navegador hace la transición.
+
+Pregunta 5. Tres propiedades de las animaciones usadas
+
+animation-duration — Indica cuánto tiempo tarda en completarse un ciclo de
+la animación. Por ejemplo, 450ms en slit-in-diagonal-2 y 5s en kenburns-top.
+
+animation-timing-function — Define la curva de velocidad de la animación,
+es decir, cómo se reparte el avance a lo largo del tiempo: linear (velocidad
+constante), ease-in (empieza lento), ease-out (termina lento), ease-in-out o
+una cubic-bezier personalizada.
+
+transform — Permite modificar elementos: pueden ser trasladados
+(translateX, translateY, translateZ), rotados (rotate, rotate3d), escalados
+(scale) o sesgados (skew) de acuerdo con los valores establecidos, sin
+afectar el flujo del resto de la página.
+
+(Extra) animation-fill-mode: both — hace que el elemento tome el estilo del
+primer cuadro antes de iniciar y conserve el del último al terminar.
+
+Paso 3. Animación de Animista integrada: kenburns-top (categoría
+background), aplicada con .card-img-top:hover. La imagen hace un zoom lento
+hacia arriba al pasar el cursor. Agregué overflow: hidden a .card para que
+la imagen no se salga de la tarjeta.
+
+Paso 4. Animaciones adicionales:
+- Navbar: tracking-in-expand en .navbar-brand; el título aparece con las
+  letras separándose al cargar la página.
+- Botones de las cards: pulsate-fwd en :hover (el botón late mientras el
+  cursor está encima) y shake-horizontal en :active (el botón se sacude al
+  hacer clic).
